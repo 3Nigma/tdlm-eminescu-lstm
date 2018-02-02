@@ -14,10 +14,10 @@ Slides can be accessed [here](https://docs.google.com/presentation/d/1NZ52WiS6d5
 
 # Prerequisites
 A Linux distro is required having the following tools installed:
-* Python
-* Tensorflow library (GPU vaiant preferably)
-* NodeJS
-* [Yarn]() package manager 
+* [Python](https://www.python.org/downloads/)
+* [Tensorflow](https://www.tensorflow.org/install/) library (GPU vaiant preferably)
+* [NodeJS](https://nodejs.org/en/download/)
+* [Yarn](https://yarnpkg.com/lang/en/docs/install/) package manager 
 
 # Usage
 First you have to install the dependencies. You do this with:
