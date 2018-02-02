@@ -21,22 +21,35 @@ A Linux distro is required having the following tools installed:
 
 # Usage
 First you have to install the dependencies. You do this with:
-```yarn prep```
+```bash
+yarn prep
+```
 Then you need to train the network. You can tweak the hyperparameters from
 `src/python/params.py`. To start the training, you type:
-```yarn train```
+```bash
+yarn train
+```
 Next you need to export the network's learned parameters along with compiling
 and deploying the web typescript sources (`src/web/main.ts`). You do this by
 typing:
-```yarn deploy```
+```bash
+yarn deploy
+```
+
 Having this done, you can see the deployed files in `build` folder.
 
 To start serving the page and have it viewable from the browser, just type:
-```yarn start-server```
+```bash
+yarn start-server
+```
+
 wait 10 seconds and you shall see the first batch of text generated.
 
 You can also do a `yarn clean` which deletes the `build` folder along with all
 the `node_modules` leaving you with a clean source base. Keep in mind that if you
 do this, you will have to redo all the previous steps to access the page again.
 
-## Happy learning!
+# License
+You are free to use the info/code you see here however you want with no restrictions.
+
+## Happy learning! :beer:
