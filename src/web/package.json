@@ -1,0 +1,26 @@
+{
+  "name": "tdl-eminescu-lstm-web",
+  "version": "1.0.0",
+  "description": "Timisoara DeepLearning Meetup - the Eminescu LSTM example - experiment",
+  "main": "index.js",
+  "scripts": {
+    "prep": "yarn && mkdirp ../../build",
+    "watch": "watchify main.ts -p [tsify] -v --debug -o ../../build/bundle.js",
+    "build": "cp index.html ../../build && browserify main.ts -p [tsify] -o ../../build/bundle.js",
+    "lint": "tslint -p . -t verbose",
+    "deploy": "yarn build && uglifyjs ../../build/bundle.js -c -m -o ../../build/bundle.min.js"
+  },
+  "author": "Victor ADASCALITEI",
+  "license": "ISC",
+  "dependencies": {
+    "deeplearn": "file:../../deeplearn-dist/",
+    "seedrandom": "^2.4.3"
+  },
+  "devDependencies": {
+    "mkdirp": "~0.5.1",
+    "tsify": "~3.0.3",
+    "tslint": "~5.8.0",
+    "typescript": "~2.6.1",
+    "watchify": "~3.9.0"
+  }
+}

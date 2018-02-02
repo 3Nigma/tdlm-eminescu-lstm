@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const spawn = require('cross-spawn');
+const opn = require('opn');
+const shell = require('shelljs');
+var argv = require('minimist')(process.argv.slice(2));
+
+const demoPath = argv._[0];
+const demoFolder = argv._[1];
+
+const outputPath = path.join(demoPath, 'bundle.js')
+const tsPath = path.join(demoPath, demoFolder + '.ts');
+
+const cmd = path.join('demos', 'node_modules', '.bin', 'watchify');
+
+const tsifyCmd = ['tsify', '-p', 'demos/tsconfig-dev.json'];
+
+// tsifyCmd is passed to the watchify command, so the arguments should be
+// wrapped in [].
+tsifyCmd[0] = '[' + tsifyCmd[0];
+tsifyCmd[tsifyCmd.length - 1] += ']';
+
+const watchify = spawn(cmd, [tsPath, '-p', ...tsifyCmd, '-v',
+    '--debug', '-o' , outputPath], {detached: false});
+watchify.stdout.pipe(process.stdout);
+watchify.stderr.pipe(process.stderr);
+
+let httpServerStarted = false;
+
+console.log('Waiting for initial compile...');
+watchify.stderr.on('data', (data) => {
+  if (data.toString().includes(`bytes written to`)) {
+    if (!httpServerStarted) {
+      const httpCmd = path.join('node_modules', '.bin', 'http-server');
+      const httpServer = spawn(httpCmd, ['-c-1'], { detached: false});
+
+      httpServer.stdout.on('data', data => {
+        data = data.toString().split('\n')[0].trim()
+        if (data.startsWith('http://127.0.0.1:')) {
+          // Open a browser pointing to the demo.
+          opn(path.join(data, demoPath));
+        }
+      });
+
+      httpServer.stdout.pipe(process.stdout);
+      httpServer.stderr.pipe(process.stderr);
+      httpServerStarted = true;
+    }
+  }
+});

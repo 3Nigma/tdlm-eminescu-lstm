@@ -1,0 +1,23 @@
+{
+  "name": "tdl-eminescu-lstm",
+  "version": "1.0.0",
+  "description": "Timisoara DeepLearning Meetup - the Eminescu LSTM example - experiment",
+  "main": "index.js",
+  "scripts": {
+    "prep": "yarn && mkdir build && cd src/web && yarn",
+    "train": "cd src/python && python train.py",
+    "deploy-net": "python scripts/dump_checkpoint_vars.py --output_dir=build/ --checkpoint_file=/tmp/eminescu-rnn --remove_variables_regex=\".*Adam.*|.*beta.*\"",
+    "build-web": "cd src/web && cp index.html ../../build && browserify main.ts -p [tsify] -o ../../build/bundle.js",
+    "lint": "cd src/web && tslint -p . -t verbose",
+    "deploy": "yarn deploy-net && cd src/web && yarn build && uglifyjs ../../build/bundle.js -c -m -o ../../build/bundle.min.js",
+    "clean": "rm -fr build && rm -fr node_modules && rm -fr src/web/node_modules",
+    "start-server": "http-server build -c-1"
+  },
+  "author": "Victor ADASCALITEI",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "uglify-js": "^3.3.9"
+  }
+}
